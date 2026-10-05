@@ -362,3 +362,58 @@ h2 .hl { background: var(--y); padding: 0 .12em; box-decoration-break: clone; -w
 .tfoot { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 16px; }
 .exit .fine code { background: var(--white); border: 1.5px solid var(--ink); border-radius: 6px; padding: 2px 6px; word-break: break-all; }
 .exit .fine button { border: 1.5px solid var(--ink); border-radius: 7px; background: var(--ink); color: var(--y); font: 500 11.5px var(--mono); padding: 3px 8px; cursor: pointer; }
+
+/* motion + demo */
+.prog { position: fixed; top: 0; left: 0; right: 0; height: 4px; z-index: 70; pointer-events: none; }
+.prog i { display: block; height: 100%; background: var(--red); transform-origin: 0 50%; transform: scaleX(0); }
+.words .w { display: inline-block; animation: rise .9s var(--ease) both; animation-delay: calc(var(--i) * 85ms + .1s); }
+@keyframes rise { from { opacity: 0; transform: translateY(55%) rotate(5deg); } }
+.tape.alt { background: var(--y); color: var(--ink); border-top: 0; }
+.tape.alt span b { color: var(--ink); }
+.tape .track.rev { animation-direction: reverse; animation-duration: 46s; }
+h2 .hl { background: linear-gradient(var(--hl, var(--y)), var(--hl, var(--y))) no-repeat 0 0 / 0% 100%; transition: background-size .9s var(--ease) .35s; }
+.room.alt h2 .hl { --hl: var(--white); background-color: transparent; }
+.room.dark h2 .hl { background-color: transparent; }
+.rv.vis .hl, .exit h2 .hl { background-size: 100% 100%; }
+.plaque.rv { transform-origin: 50% 0; }
+.plaque.rv.vis { animation: hangin 1s var(--ease) both; }
+@keyframes hangin { 0% { opacity: 0; transform: rotate(-9deg) translateY(-12px); } 55% { transform: rotate(3deg); } 80% { transform: rotate(-1deg); } 100% { opacity: 1; transform: none; } }
+.st, .coin, .rcol, .idb { transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .15s; }
+.st:hover, .coin:hover, .rcol:hover { transform: translate(-3px, -3px); box-shadow: 9px 9px 0 var(--ink); }
+.cbox:not(.on) { animation: ping 1.8s var(--ease) infinite; }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(217, 45, 32, .5); } 100% { box-shadow: 0 0 0 16px rgba(217, 45, 32, 0); } }
+.spin { animation: spin 5s linear infinite; transform-origin: 50% 50%; }
+@keyframes spin { 0% { transform: rotateY(0); } 100% { transform: rotateY(360deg); } }
+.demotag { position: sticky; top: 0; z-index: 2; align-self: center; background: var(--red); color: #fff; font: 500 10.5px var(--mono); letter-spacing: .16em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; box-shadow: 2px 2px 0 var(--ink); }
+.typing { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--mute); animation: pop .3s var(--ease) both; }
+.typing .av { width: 26px; height: 26px; }
+.typing i { display: inline-block; width: 4px; height: 4px; margin-left: 3px; border-radius: 50%; background: var(--mute); animation: dot 1s ease-in-out infinite; }
+.typing i:nth-of-type(2) { animation-delay: .15s; } .typing i:nth-of-type(3) { animation-delay: .3s; }
+@keyframes dot { 50% { transform: translateY(-4px); opacity: .35; } }
+.exhead { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 44px; }
+.exhead span { font: 500 12.5px var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+.exhead + .jobs { margin-top: 18px; }
+.jobs.ex .job { animation: pop .6s var(--ease) both; animation-delay: calc(var(--i) * 120ms); }
+.job .state.ex { background: var(--red); color: #fff; border-color: var(--red); }
+.hang { transition: translate .1s linear; }
+@media (prefers-reduced-motion: reduce) { .words .w, .plaque.rv.vis, .cbox, .spin, .jobs.ex .job, .typing i { animation: none !important; } h2 .hl { background-size: 100% 100%; transition: none; } }
+
+/* how it works */
+.how { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin-top: 50px; }
+.hline { position: absolute; left: 6%; right: 6%; top: 50px; height: 3px; background: repeating-linear-gradient(90deg, var(--ink) 0 10px, transparent 10px 18px); animation: march .9s linear infinite; }
+@keyframes march { to { background-position: 18px 0; } }
+.hs { position: relative; z-index: 1; background: var(--white); border: var(--line); border-radius: 18px; padding: 18px; box-shadow: var(--shadow); transition: transform .2s var(--ease), box-shadow .2s var(--ease); }
+.hs:hover { transform: translate(-3px, -3px); box-shadow: 9px 9px 0 var(--ink); }
+.hs .ic { width: 64px; height: 64px; border: var(--line); border-radius: 16px; display: grid; place-items: center; background: var(--y); margin-bottom: 16px; animation: bob 3.2s ease-in-out infinite; animation-delay: calc(var(--i) * .35s); }
+.hs:nth-child(n+5) .ic { background: var(--white); }
+.hs .ic svg { width: 32px; height: 32px; }
+@keyframes bob { 50% { transform: translateY(-6px) rotate(-3deg); } }
+.hs b { font: 500 12px var(--mono); color: var(--mute); letter-spacing: .14em; }
+.hs h3 { margin: 6px 0 4px; font-weight: 900; font-size: 20px; letter-spacing: -.03em; line-height: 1.1; }
+.hs p { margin: 0; color: var(--ink2); font-size: 14.5px; }
+.who { position: absolute; top: 14px; right: 14px; font: 500 10.5px var(--mono); letter-spacing: .14em; padding: 3px 8px; border-radius: 999px; border: 1.5px solid var(--ink); }
+.who.ai { background: var(--ink); color: var(--y); }
+.who.hu { background: var(--y); }
+@media (max-width: 980px) { .how { grid-template-columns: repeat(2, minmax(0, 1fr)); } .hline { display: none; } }
+@media (max-width: 560px) { .how { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .hline, .hs .ic { animation: none; } }
