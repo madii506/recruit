@@ -59,6 +59,7 @@ async function load() {
       if (!g || r.by === g.by || r.t > g.closes || !/^https?:\/\//i.test(String(j.u || ''))) continue;
       g.applicants = g.applicants.filter(a => a.wallet !== r.by);
       g.applicants.push({ wallet: r.by, url: clean(j.u, 200), t: r.t, sig: r.sig });
+      feed.push({ kind: 'apply', sig: r.sig, t: r.t, by: r.by, gig: g.id, title: g.title });
     } else if (kind === 'paid' && ag) {
       const j = json(body); const g = j && gigs.get(String(j.g || ''));
       if (!g || g.by !== r.by) continue;

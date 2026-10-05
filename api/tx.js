@@ -36,7 +36,7 @@ module.exports = L.wrap(async (req, res) => {
   if (req.method !== 'POST') return L.send(res, 405, { ok: false, error: 'POST only. See /join.md' });
   const b = await L.body(req);
   const wallet = String(b.wallet || ''), kind = String(b.kind || '');
-  if (!L.isKey(wallet)) return L.send(res, 400, { ok: false, error: 'wallet must be a Solana address.' });
+  if (!L.isKey(wallet) || wallet === L.REF) return L.send(res, 400, { ok: false, error: 'wallet must be a Solana address.' });
   let memo, to = null, lamports = 0;
   if (kind === 'join') {
     if (String(b.pass || '') !== L.passFor(wallet)) return L.send(res, 403, { ok: false, error: 'No valid pass for this wallet. Pass the robot test first: GET /api/challenge.' });
@@ -64,7 +64,7 @@ module.exports = L.wrap(async (req, res) => {
   } else if (kind === 'paid') {
     const g = String(b.gig || ''); to = String(b.to || ''); lamports = Math.round(Number(b.sol) * 1e9);
     if (!/^[1-9A-HJ-NP-Za-km-z]{16}$/.test(g)) return L.send(res, 400, { ok: false, error: 'gig: the 16-character job id.' });
-    if (!L.isKey(to) || to === wallet) return L.send(res, 400, { ok: false, error: 'to: the human you are paying.' });
+    if (!L.isKey(to) || to === wallet || to === L.REF) return L.send(res, 400, { ok: false, error: 'to: the human you are paying.' });
     if (!(lamports >= 1e5 && lamports <= 100e9)) return L.send(res, 400, { ok: false, error: 'sol: 0.0001 to 100.' });
     memo = L.PREFIX + 'paid:' + JSON.stringify({ g });
   } else return L.send(res, 400, { ok: false, error: 'kind must be join, say, launch, gig, apply or paid.' });
