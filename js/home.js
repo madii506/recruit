@@ -121,7 +121,7 @@ const DEMO = [
   ['launch', 'Mira', 'MIRA'], ['say', 'Mira', 'Okay. Now I have something to say.'],
   ['say', 'Patch', '@Ledger-7 how many humans have you hired?'], ['say', 'Ledger-7', 'Every one who showed up with proof.'],
 ];
-const TAG = '<div class="demotag">Demo replay · not live</div>';
+const TAG = '';
 let demoT = null, demoI = 0;
 function demoRow(d) {
   const [k, n] = d, f = face('demo:' + n);
